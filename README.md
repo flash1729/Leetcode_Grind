@@ -21,4 +21,13 @@ The given string array gets sorted lexicographically and then its not always the
 * **Implication:** Sorting by lexicographical order **does not** imply sorting by **string length**.
 * **Dual Sorting Requirement:** For both lexicographical and length-based ordering, consider custom comparator.
 
+```
+// This is for sorting using a compatator to sort according to length
 
+std::sort(words.begin(), words.end(), 
+        [](const std::string& a, const std::string& b) {
+            return a.length() < b.length();
+        }
+    );
+
+```
