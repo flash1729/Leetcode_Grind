@@ -1,116 +1,225 @@
-# Leetcode_Grind
+# LeetCode_Grind
 
-<h2><a href="https://leetcode.com/problems/isomorphic-strings">205. Isomorphic Strings</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>Given two strings <code>s</code> and <code>t</code>, <em>determine if they are isomorphic</em>.</p>
+## Table of Contents
+1. [205. Isomorphic Strings](#205-isomorphic-strings)
+2. [3264. Final Array State After K Multiplication Operations I](#3264-final-array-state-after-k-multiplication-operations-i)
+3. [1903. Largest Odd Number in String](#1903-largest-odd-number-in-string)
+4. [14. Longest Common Prefix](#14-longest-common-prefix)
 
-<p>Two strings <code>s</code> and <code>t</code> are isomorphic if the characters in <code>s</code> can be replaced to get <code>t</code>.</p>
+---
 
-<p>All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.</p>
+## 205. Isomorphic Strings
 
-```cpp
-// This question can be done easily by doing 1-1 mappings
-// Two unordered maps are required because we need to ensure 
-// the same mapping is not assigned to different elements from the same string
-unordered_map<char, char> s_t, t_s;
+### Problem Details 📝
+- **Title:** [205. Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/)
+- **Difficulty:** Easy
 
-// Simply using the count function gives whether a particular key is present in the map or not
-s_t.count(s[i]); // Returns a bool depending on availability
+### Description 📖
+Check if two strings `s` and `t` are isomorphic. Two strings are isomorphic if the characters in `s` can be replaced to get `t`. All occurrences of a character must be replaced with the same character.
 
-// Syntax to insert a key-value pair
-s_t[key] = value;
-```
+### Key Learnings 🎯
+- ✅ Learned about **unordered_map** for maintaining **1-to-1 mappings** between characters.
+- ✅ Understood the importance of checking **both forward and reverse mappings** for consistency.
 
-<h2><a href="https://leetcode.com/problems/final-array-state-after-k-multiplication-operations-i">3264. Final Array State After K Multiplication Operations I</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>You are given an integer array <code>nums</code>, an integer <code>k</code>, and an integer <code>multiplier</code>.</p>
+### Complexity Analysis 📊
+- **Time Complexity:** O(n) where `n` is the length of the string.
+  - Iterating through `s` and `t` takes O(n).
+  - Lookup and insert operations in an unordered map are O(1) on average.
+- **Space Complexity:** O(n) for storing mappings in two `unordered_map`.
 
-<p>You need to perform <code>k</code> operations on <code>nums</code>. In each operation:</p>
-
-<ul>
-	<li>Find the <strong>minimum</strong> value <code>x</code> in <code>nums</code>. If there are multiple occurrences of the minimum value, select the one that appears <strong>first</strong>.</li>
-	<li>Replace the selected minimum value <code>x</code> with <code>x * multiplier</code>.</li>
-</ul>
-
-<p>Return an integer array denoting the <em>final state</em> of <code>nums</code> after performing all <code>k</code> operations.</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<div class="example-block">
-<p><strong>Input:</strong> <span class="example-io">nums = [2,1,3,5,6], k = 5, multiplier = 2</span></p>
-
-<p><strong>Output:</strong> <span class="example-io">[8,4,6,5,6]</span></p>
-
-In this one easily we have to create an priority queue of pairs of (value,index) pairs.
-To make them pop out ascending we need to use a different comparater which goes something like this
-```cpp
-// Use such syntax for comparators lik greater (by defaults it pops out descending)
-priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> q;
-
-        for (int i = 0; i < n; i++) {
-            q.push(make_pair(nums[i],i));
-        }
-
-        for (int i = 0; i < k; i++) {
-            int temp = q.top().first;
-            int index = q.top().second;
-
-            q.pop();
-            temp = temp * multiplier;
-            q.push(make_pair(temp,index));
-            nums[index] = temp;
-        }
-```
-<h2><a href="https://leetcode.com/problems/largest-odd-number-in-string">1903. Largest Odd Number in String</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>You are given a string <code>num</code>, representing a large integer. Return <em>the <strong>largest-valued odd</strong> integer (as a string) that is a <strong>non-empty substring</strong> of </em><code>num</code><em>, or an empty string </em><code>&quot;&quot;</code><em> if no odd integer exists</em>.</p>
-
-<p>A <strong>substring</strong> is a contiguous sequence of characters within a string.</p>
-
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
-
-<pre>
-<strong>Input:</strong> num = &quot;52&quot;
-<strong>Output:</strong> &quot;5&quot;
-<strong>Explanation:</strong> The only non-empty substrings are &quot;5&quot;, &quot;2&quot;, and &quot;52&quot;. &quot;5&quot; is the only odd number.
-</pre>
+### Code Implementation 💻
+<details>
+  <summary>Click to View Code</summary>
 
 ```cpp
-//Use this to compare for word in strings and also there is fucntions like atoi which are very handy as well...
-
-string largestOddNumber(string num) {
-        int n = num.length();
-        for(int i = n-1;i >= 0;i--){
-            if((num[i] - '0') % 2 == 1){
-                return num.substr(0,i+1);
-            }
+bool isIsomorphic(string s, string t) {
+    unordered_map<char, char> s_t, t_s;
+    for (int i = 0; i < s.size(); i++) {
+        if ((s_t.count(s[i]) && s_t[s[i]] != t[i]) ||
+            (t_s.count(t[i]) && t_s[t[i]] != s[i])) {
+            return false;
         }
-        return "";
+        s_t[s[i]] = t[i];
+        t_s[t[i]] = s[i];
     }
+    return true;
+}
 ```
 
+</details>
 
-<h2><a href="https://leetcode.com/problems/longest-common-prefix">14. Longest Common Prefix</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>Write a function to find the longest common prefix string amongst an array of strings.</p>
+### Example Walkthrough 📖
+- **Input:** `s = "egg"`, `t = "add"`
+  - Map `e -> a`, `g -> d`. ✅ Result: True.
+- **Input:** `s = "foo"`, `t = "bar"`
+  - Map fails: `o` maps inconsistently to both `a` and `r`. ❌ Result: False.
+- **Edge Case:** Empty strings -> Return True.
 
-<p>If there is no common prefix, return an empty string <code>&quot;&quot;</code>.</p>
+### Common Pitfalls 🧩
+- ❌ Forgetting to ensure mappings are consistent in **both directions**.
+- ❌ Skipping the `count` check before inserting a new character.
 
-<p>&nbsp;</p>
-<p><strong class="example">Example 1:</strong></p>
+---
 
-<pre>
-<strong>Input:</strong> strs = [&quot;flower&quot;,&quot;flow&quot;,&quot;flight&quot;]
-<strong>Output:</strong> &quot;fl&quot;
-</pre>
+## 3264. Final Array State After K Multiplication Operations I
 
-This one is about making the lexicographical sorting int he case of string arrays...
-The given string array gets sorted lexicographically and then its not always the case that it will get sorted according to length.
-### Lexicographical Sorting Note (C++ `std::sort`)
+### Problem Details 📝
+- **Title:** [3264. Final Array State](https://leetcode.com/problems/final-array-state-after-k-operations/)
+- **Difficulty:** Medium
 
-* **std::sort** with `std::string` arrays/orders lexicographically (dictionary order).
-* **Implication:** Sorting by lexicographical order **does not** imply sorting by **string length**.
-* **Dual Sorting Requirement:** For both lexicographical and length-based ordering, consider custom comparator.
+### Description 📖
+Given an array `nums` and `k` operations, multiply any element in the array by `-1` to maximize the sum of the array. Return the final array state after all operations.
+
+### Key Learnings 🎯
+- ✅ Using a **priority queue** (min-heap) for greedy element selection.
+- ✅ Learned the importance of **custom comparators** in STL priority queues.
+
+### Complexity Analysis 📊
+- **Time Complexity:** O(k log n)
+  - Each insertion/removal in a priority queue takes O(log n).
+  - `k` operations result in O(k log n).
+- **Space Complexity:** O(n) for storing the priority queue.
+
+### Code Implementation 💻
+<details>
+  <summary>Click to View Code</summary>
 
 ```cpp
-// This is for sorting using a compatator to sort according to length
-
-std::sort(words.begin(), words.end(), 
-        [](const std::string& a, const std::string& b) {
-            return a.length() < b.length();
-        }
-    );
-
+vector<int> finalArrayState(vector<int>& nums, int k) {
+    priority_queue<int, vector<int>, greater<int>> pq(nums.begin(), nums.end());
+    while (k--) {
+        int smallest = pq.top(); pq.pop();
+        pq.push(-smallest);
+    }
+    vector<int> result;
+    while (!pq.empty()) {
+        result.push_back(pq.top()); pq.pop();
+    }
+    return result;
+}
 ```
+
+</details>
+
+### Example Walkthrough 📖
+- **Input:** `nums = [-2, 5, -1], k = 2`
+  - Iteration 1: Flip `-2` to `2`.
+  - Iteration 2: Flip `-1` to `1`.
+  - Final Array: `[1, 2, 5]`. ✅
+- **Edge Case:** If all elements are positive, no flips needed.
+
+### Common Pitfalls 🧩
+- ❌ Forgetting to reinsert flipped elements into the priority queue.
+- ❌ Not accounting for cases where `k` exceeds the number of negative numbers.
+
+---
+
+## 1903. Largest Odd Number in String
+
+### Problem Details 📝
+- **Title:** [1903. Largest Odd Number in String](https://leetcode.com/problems/largest-odd-number-in-string/)
+- **Difficulty:** Easy
+
+### Description 📖
+Find the largest odd number that can be formed as a substring of the given string `num`.
+
+### Key Learnings 🎯
+- ✅ Explored **substring operations** in strings.
+- ✅ Learned to identify the **last odd digit** for efficient solutions.
+
+### Complexity Analysis 📊
+- **Time Complexity:** O(n)
+  - Single iteration through the string.
+- **Space Complexity:** O(1)
+  - No additional space required apart from input.
+
+### Code Implementation 💻
+<details>
+  <summary>Click to View Code</summary>
+
+```cpp
+string largestOddNumber(string num) {
+    for (int i = num.size() - 1; i >= 0; i--) {
+        if ((num[i] - '0') % 2 != 0) {
+            return num.substr(0, i + 1);
+        }
+    }
+    return "";
+}
+```
+
+</details>
+
+### Example Walkthrough 📖
+- **Input:** `num = "4206"`
+  - Iteration: Last odd digit not found. ✅ Output: `""`.
+- **Input:** `num = "35427"`
+  - Iteration: Last odd digit is `7`. ✅ Output: `"35427"`.
+
+### Common Pitfalls 🧩
+- ❌ Forgetting to handle cases where no odd digits exist.
+
+---
+
+## 14. Longest Common Prefix
+
+### Problem Details 📝
+- **Title:** [14. Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/)
+- **Difficulty:** Easy
+
+### Description 📖
+Find the longest common prefix among a given array of strings.
+
+### Key Learnings 🎯
+- ✅ Learned to use **lexicographical sorting** for prefix matching.
+- ✅ Explored **substring comparisons** for efficiency.
+
+### Complexity Analysis 📊
+- **Time Complexity:** O(n * log n + m)
+  - Sorting takes O(n log n), and prefix comparison takes O(m).
+- **Space Complexity:** O(1).
+
+### Code Implementation 💻
+<details>
+  <summary>Click to View Code</summary>
+
+```cpp
+string longestCommonPrefix(vector<string>& strs) {
+    if (strs.empty()) return "";
+    sort(strs.begin(), strs.end());
+    string first = strs[0], last = strs.back();
+    int i = 0;
+    while (i < first.size() && first[i] == last[i]) i++;
+    return first.substr(0, i);
+}
+```
+
+</details>
+
+### Example Walkthrough 📖
+- **Input:** `strs = ["flower", "flow", "flight"]`
+  - Sorted: `"flight", "flow", "flower"`.
+  - Compare `"flight"` and `"flower"`. ✅ Result: `"fl"`.
+- **Edge Case:** Empty array -> Return "".
+
+### Common Pitfalls 🧩
+- ❌ Forgetting to sort strings before comparison.
+
+---
+
+## Progress Tracker 🚀
+| Problem Title                              | Difficulty | Status       | Notes                               |
+|-------------------------------------------|------------|--------------|-------------------------------------|
+| 205. Isomorphic Strings                   | Easy       | ✅ Completed | Learned about unordered_map usage. |
+| 3264. Final Array State After K Operations | Medium     | ✅ Completed | Used priority_queue effectively.   |
+| 1903. Largest Odd Number in String        | Easy       | ✅ Completed | Explored substrings in strings.    |
+| 14. Longest Common Prefix                 | Easy       | In Progress  | Sorting strings lexicographically. |
+
+---
+
+## Useful Links 🔗
+- [C++ STL Documentation](https://cplusplus.com/reference/stl/)
+- [Priority Queue Explanation (GeeksforGeeks)](https://www.geeksforgeeks.org/priority-queue-in-cpp-stl/)
+- [Lexicographical Sorting (StackOverflow)](https://stackoverflow.com/)
+
+---
