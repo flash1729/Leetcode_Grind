@@ -1,6 +1,42 @@
 # Leetcode_Grind
-Collection of LeetCode questions to ace the coding interview!
 
+<h2><a href="https://leetcode.com/problems/final-array-state-after-k-multiplication-operations-i">3264. Final Array State After K Multiplication Operations I</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>You are given an integer array <code>nums</code>, an integer <code>k</code>, and an integer <code>multiplier</code>.</p>
+
+<p>You need to perform <code>k</code> operations on <code>nums</code>. In each operation:</p>
+
+<ul>
+	<li>Find the <strong>minimum</strong> value <code>x</code> in <code>nums</code>. If there are multiple occurrences of the minimum value, select the one that appears <strong>first</strong>.</li>
+	<li>Replace the selected minimum value <code>x</code> with <code>x * multiplier</code>.</li>
+</ul>
+
+<p>Return an integer array denoting the <em>final state</em> of <code>nums</code> after performing all <code>k</code> operations.</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<div class="example-block">
+<p><strong>Input:</strong> <span class="example-io">nums = [2,1,3,5,6], k = 5, multiplier = 2</span></p>
+
+<p><strong>Output:</strong> <span class="example-io">[8,4,6,5,6]</span></p>
+
+In this one easily we have to create an priority queue of pairs of (value,index) pairs.
+To make them pop out ascending we need to use a different comparater which goes something like this
+```
+// Use such syntax for comparators lik greater (by defaults it pops out descending)
+priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> q;
+
+        for (int i = 0; i < n; i++) {
+            q.push(make_pair(nums[i],i));
+        }
+
+        for (int i = 0; i < k; i++) {
+            int temp = q.top().first;
+            int index = q.top().second;
+
+            q.pop();
+            temp = temp * multiplier;
+            q.push(make_pair(temp,index));
+            nums[index] = temp;
+        }
+```
 <h2><a href="https://leetcode.com/problems/largest-odd-number-in-string">1903. Largest Odd Number in String</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>You are given a string <code>num</code>, representing a large integer. Return <em>the <strong>largest-valued odd</strong> integer (as a string) that is a <strong>non-empty substring</strong> of </em><code>num</code><em>, or an empty string </em><code>&quot;&quot;</code><em> if no odd integer exists</em>.</p>
 
 <p>A <strong>substring</strong> is a contiguous sequence of characters within a string.</p>
