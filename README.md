@@ -205,17 +205,13 @@ string longestCommonPrefix(vector<string>& strs) {
 ### Common Pitfalls 🧩
 - ❌ Forgetting to sort strings before comparison.
 
----
-
-## Progress Tracker 🚀
-| Problem Title                              | Difficulty | Status       | Notes                               |
-|-------------------------------------------|------------|--------------|-------------------------------------|
-| 205. Isomorphic Strings                   | Easy       | ✅ Completed | Learned about unordered_map usage. |
-| 3264. Final Array State After K Operations | Medium     | ✅ Completed | Used priority_queue effectively.   |
-| 1903. Largest Odd Number in String        | Easy       | ✅ Completed | Explored substrings in strings.    |
-| 14. Longest Common Prefix                 | Easy       | In Progress  | Sorting strings lexicographically. |
-
----
+## Progress Tracker 
+| Problem Title                              | Difficulty | Syntax Used                            | Notes                               |
+|-------------------------------------------|------------|---------------------------------------|-------------------------------------|
+| 205. Isomorphic Strings                   | Easy       | `unordered_map<char, char>`          | Learned about unordered_map usage. |
+| 3264. Final Array State After K Operations | Medium     | `priority_queue<int, vector<int>, greater<int>>` | Used priority_queue effectively.   |
+| 1903. Largest Odd Number in String        | Easy       | `string::substr`, `stoi`              | Explored substrings in strings.    |
+| 14. Longest Common Prefix                 | Easy       | `sort(vector<string>::begin(), ...)` | Sorting strings lexicographically. |
 
 ## Useful Links 🔗
 - [C++ STL Documentation](https://cplusplus.com/reference/stl/)
