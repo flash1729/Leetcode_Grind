@@ -1,5 +1,24 @@
 # Leetcode_Grind
 
+<h2><a href="https://leetcode.com/problems/isomorphic-strings">205. Isomorphic Strings</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>Given two strings <code>s</code> and <code>t</code>, <em>determine if they are isomorphic</em>.</p>
+
+<p>Two strings <code>s</code> and <code>t</code> are isomorphic if the characters in <code>s</code> can be replaced to get <code>t</code>.</p>
+
+<p>All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.</p>
+
+```cpp
+// This question can be done easily by doing 1-1 mappings
+// Two unordered maps are required because we need to ensure 
+// the same mapping is not assigned to different elements from the same string
+unordered_map<char, char> s_t, t_s;
+
+// Simply using the count function gives whether a particular key is present in the map or not
+s_t.count(s[i]); // Returns a bool depending on availability
+
+// Syntax to insert a key-value pair
+s_t[key] = value;
+```
+
 <h2><a href="https://leetcode.com/problems/final-array-state-after-k-multiplication-operations-i">3264. Final Array State After K Multiplication Operations I</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>You are given an integer array <code>nums</code>, an integer <code>k</code>, and an integer <code>multiplier</code>.</p>
 
 <p>You need to perform <code>k</code> operations on <code>nums</code>. In each operation:</p>
@@ -19,7 +38,7 @@
 
 In this one easily we have to create an priority queue of pairs of (value,index) pairs.
 To make them pop out ascending we need to use a different comparater which goes something like this
-```
+```cpp
 // Use such syntax for comparators lik greater (by defaults it pops out descending)
 priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> q;
 
@@ -50,7 +69,7 @@ priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> 
 <strong>Explanation:</strong> The only non-empty substrings are &quot;5&quot;, &quot;2&quot;, and &quot;52&quot;. &quot;5&quot; is the only odd number.
 </pre>
 
-```
+```cpp
 //Use this to compare for word in strings and also there is fucntions like atoi which are very handy as well...
 
 string largestOddNumber(string num) {
@@ -85,7 +104,7 @@ The given string array gets sorted lexicographically and then its not always the
 * **Implication:** Sorting by lexicographical order **does not** imply sorting by **string length**.
 * **Dual Sorting Requirement:** For both lexicographical and length-based ordering, consider custom comparator.
 
-```
+```cpp
 // This is for sorting using a compatator to sort according to length
 
 std::sort(words.begin(), words.end(), 
