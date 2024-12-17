@@ -5,13 +5,12 @@ public:
             return false;
 
         int n = s.size();
-        string temp = s;
 
         for(int i = 0;i < n;i++){
-            if(temp == goal)
+            if(s == goal)
                 return true;
             
-            temp = temp.substr(1,n) + temp[0];
+            s = s.substr(1,n) + s[0];
         }
 
         return false;
