@@ -5,6 +5,7 @@
 2. [3264. Final Array State After K Multiplication Operations I](#3264-final-array-state-after-k-multiplication-operations-i)
 3. [1903. Largest Odd Number in String](#1903-largest-odd-number-in-string)
 4. [14. Longest Common Prefix](#14-longest-common-prefix)
+5. [242. Valid Anagram](https://leetcode.com/problems/valid-anagram)
 
 ---
 ## 242. Valid Anagram
