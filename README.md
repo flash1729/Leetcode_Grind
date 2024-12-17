@@ -7,6 +7,68 @@
 4. [14. Longest Common Prefix](#14-longest-common-prefix)
 
 ---
+## 242. Valid Anagram
+
+### Problem Details 📝
+- **Title:** [242. Valid Anagram](https://leetcode.com/problems/valid-anagram)
+- **Difficulty:** Easy
+
+### Description 📖
+Given two strings `s` and `t`, return `true` if `t` is an **anagram** of `s`, and `false` otherwise.  
+An anagram is a word formed by rearranging the letters of a different word, using all the original letters exactly once.
+
+---
+
+### Key Learnings 🎯
+- ✅ **Simple Array Structure:**  
+  Use a fixed **26-element array** to track character frequencies for lowercase English letters.
+- ✅ **unordered_map Comparison:**  
+  **unordered_map** objects in C++ can be directly compared using the `==` operator.
+- ✅ **Sorting:**  
+  By sorting both strings and comparing, an anagram can be easily detected.
+
+---
+
+### Complexity Analysis 📊
+1. **Array-Based Approach:**
+   - **Time Complexity:** O(n), where `n` is the length of the string.  
+     One pass to count characters and another to validate frequencies.
+   - **Space Complexity:** O(1), as the array size is fixed at 26.
+2. **unordered_map Approach:**
+   - **Time Complexity:** O(n), as insertions and lookups in unordered_map are O(1) on average.
+   - **Space Complexity:** O(1) for constant-sized map of letters.
+3. **Sorting-Based Approach:**
+   - **Time Complexity:** O(n log n), due to sorting both strings.
+   - **Space Complexity:** O(1) if sorting in place, O(n) otherwise.
+
+---
+
+### Code Implementations 💻
+
+#### Array-Based Solution
+```cpp
+bool isAnagram(string s, string t) {
+    if (s.size() != t.size()) return false;
+    vector<int> count(26, 0);
+    for (int i = 0; i < s.size(); i++) {
+        count[s[i] - 'a']++;
+        count[t[i] - 'a']--;
+    }
+    for (int c : count) {
+        if (c != 0) return false;
+    }
+    return true;
+}
+
+//Soln 2 using maps -- Maps can be directly compared using == operator
+bool isAnagram(string s, string t) {
+    if (s.size() != t.size()) return false;
+    unordered_map<char, int> freq_s, freq_t;
+    for (char c : s) freq_s[c]++;
+    for (char c : t) freq_t[c]++;
+    return freq_s == freq_t;
+}
+```
 
 ## 205. Isomorphic Strings
 
