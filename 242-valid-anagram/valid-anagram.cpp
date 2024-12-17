@@ -7,11 +7,8 @@ public:
         int a[26],b[26];
 
         for(int i = 0; i < s.length();i++){
-            int stemp = s[i] - 'a';
-            int ttemp = t[i] - 'a';
-
-            a[stemp]++;
-            b[ttemp]++;
+            a[s[i] - 'a']++;
+            b[t[i] - 'a']++;
         }
 
         for(int i = 0;i < 26;i++){
