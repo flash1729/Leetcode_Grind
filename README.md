@@ -8,6 +8,71 @@
 5. [242. Valid Anagram](https://leetcode.com/problems/valid-anagram)
 
 ---
+<h2><a href="https://leetcode.com/problems/sort-characters-by-frequency">Sort Characters By Frequency</a></h2> <img src='https://img.shields.io/badge/Difficulty-Medium-orange' alt='Difficulty: Medium' /><hr><p>Given a string <code>s</code>, sort it in <strong>decreasing order</strong> based on the <strong>frequency</strong> of the characters. The <strong>frequency</strong> of a character is the number of times it appears in the string.</p>
+
+<p>Return <em>the sorted string</em>. If there are multiple answers, return <em>any of them</em>.</p>
+
+<p>&nbsp;</p>
+<p><strong class="example">Example 1:</strong></p>
+
+<pre>
+<strong>Input:</strong> s = &quot;tree&quot;
+<strong>Output:</strong> &quot;eert&quot;
+<strong>Explanation:</strong> &#39;e&#39; appears twice while &#39;r&#39; and &#39;t&#39; both appear once.
+So &#39;e&#39; must appear before both &#39;r&#39; and &#39;t&#39;. Therefore &quot;eetr&quot; is also a valid answer.
+</pre>
+
+### Key Learnings 🎯
+- ✅ **How we can use unordered_maps**
+    this is a nice data structure...
+- ✅ **Learnt the uses of comparators and of auto**
+- ✅ **priority_queue<Type, Container, Comparator>**
+    this is the way a prioroty queue is defined and according we can manage to make it min or max heap...
+
+```cpp
+string frequencySort(string s) {
+    // Step 1: Make a map<char, int> freq to store frequencies
+    unordered_map<char, int> freq;
+
+    // Increment the value for each character in the map
+    // If the character is already in the map, the value will increase
+    // If the character is not present, it starts from 0 -> 1
+    for (char ch : s) {
+        freq[ch]++;
+    }
+
+    // Step 2: Define a custom comparator for priority_queue
+    // This will sort pairs based on the second value (frequency) in descending order
+    auto cmp = [](const pair<char, int>& a, const pair<char, int>& b) {
+        return a.second < b.second; // Higher frequency comes first
+    };
+
+    // Step 3: Make a priority_queue with modified parameters
+    // Priority queue stores {character, frequency} pairs
+    // It uses the custom comparator defined above
+    priority_queue<pair<char, int>, vector<pair<char, int>>, decltype(cmp)> pq(cmp);
+
+    // Push all elements from the map into the priority queue
+    for (const auto& [ch, count] : freq) {
+        pq.push({ch, count});
+    }
+
+    // Step 4: Build the result string
+    string result;
+    // Loop through the priority queue until it is empty
+    while (!pq.empty()) {
+        // Get the top element (character with the highest frequency)
+        auto [ch, count] = pq.top();
+        pq.pop();
+
+        // Append the character 'count' times to the result string
+        result.append(count, ch);
+    }
+
+    // Return the final sorted string
+    return result;
+}
+```
 ## 242. Valid Anagram
 
 ### Problem Details 📝
