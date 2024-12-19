@@ -5,11 +5,11 @@ public:
         int ans = 0;
         for(char a : s){
             if(a == '('){
-                check += 1;
+                check ++;
                 ans = max(ans,check);
             }
             else if(a == ')'){
-                check -= 1;
+                check --;
             }
         }
         return ans;
