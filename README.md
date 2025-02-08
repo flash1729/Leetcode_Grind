@@ -6,8 +6,208 @@
 3. [1903. Largest Odd Number in String](#1903-largest-odd-number-in-string)
 4. [14. Longest Common Prefix](#14-longest-common-prefix)
 5. [242. Valid Anagram](https://leetcode.com/problems/valid-anagram)
+6. [SET & MAP OPERATIONS QUICK REFERENCE](https://github.com/flash1729/Leetcode_Grind/edit/main/README.md#design-a-number-container-system-)
 
 ---
+
+## <a href="https://leetcode.com/problems/design-a-number-container-system">Design a Number Container System</a> <img src='https://img.shields.io/badge/Difficulty-Medium-orange' alt='Difficulty: Medium' />
+
+### Problem Statement 📜
+Design a number container system that can do the following:
+
+1. **change(index, number)**: Assign a given number to a specified index. If the index already had a number, update it.
+2. **find(number)**: Return the **smallest index** where this number is stored. If the number does not exist, return `-1`.
+
+### **Key Learnings 🎯**
+- ✅ **Using `unordered_map` for fast lookups**  
+  - `ncsys`: Maps `index → number`
+  - `revmap`: Maps `number → sorted set of indices`
+- ✅ **Using `set<int>` instead of `vector<int>`**  
+  - **`set<int>` keeps elements sorted**
+  - This makes it **easy to find the smallest index**
+- ✅ **Using `.begin()` with `set`**  
+  - `set<int>::begin()` gives the **smallest element in O(1)**
+  - No need to sort manually 🎉
+- ✅ **Handling previous values efficiently**  
+  - **Check if index exists in `ncsys` before updating**
+  - **Remove old index from `revmap[oldNumber]`**
+  - **Use `.erase()` and `.empty()` to clean up unused sets**
+- ✅ **New Functions Learned**  
+  - `.find()`: Checks if a key exists in `unordered_map`
+  - `.erase()`: Removes an element from `set` or `unordered_map`
+  - `.empty()`: Checks if `set` is empty before deletion
+
+```cpp
+#include <iostream>
+#include <set>
+#include <unordered_map>
+using namespace std;
+
+int main() {
+    // Demonstrating set operations
+    set<int> mySet = {5, 2, 8, 1, 9};
+    
+    // 1. .begin() - Returns iterator to smallest element
+    // ----------------------------------------------
+    // IMPORTANT: .begin() works in O(1) for sets because they're always sorted
+    // Use case: When you need the smallest element quickly
+    auto smallest = mySet.begin();  // Points to 1
+    cout << "Smallest element: " << *smallest << endl;  // Use * to get the value
+    
+    // 2. .erase() - Removes elements from set
+    // ----------------------------------------------
+    // Method 1: Erase by value
+    mySet.erase(5);  // Removes 5 from set
+    // Method 2: Erase by iterator
+    auto it = mySet.find(2);
+    if (it != mySet.end()) {
+        mySet.erase(it);  // Removes 2 from set
+    }
+    // IMPORTANT: After erasing, iterator becomes invalid
+    // Don't use the iterator after erasing!
+    
+    // 3. .find() - Searches for element
+    // ----------------------------------------------
+    // Returns iterator to element if found, .end() if not found
+    // IMPORTANT: Use find() before erase() to check existence
+    auto findIt = mySet.find(8);
+    if (findIt != mySet.end()) {
+        cout << "Found: " << *findIt << endl;
+    } else {
+        cout << "Not found!" << endl;
+    }
+    
+    // 4. .empty() - Checks if container has elements
+    // ----------------------------------------------
+    // Returns true if container has no elements
+    // IMPORTANT: Always check empty() before accessing elements
+    if (!mySet.empty()) {
+        cout << "First element: " << *mySet.begin() << endl;
+    }
+    
+    // PRACTICAL EXAMPLE: Managing a student's courses
+    unordered_map<string, set<int>> studentCourses;  // student -> course IDs
+    
+    // Adding courses for a student
+    studentCourses["Alice"].insert(101);
+    studentCourses["Alice"].insert(102);
+    
+    // COMBINING ALL OPERATIONS:
+    string student = "Alice";
+    int courseToRemove = 101;
+    
+    // 1. First find if student exists
+    auto studentIt = studentCourses.find(student);
+    
+    if (studentIt != studentCourses.end()) {
+        // 2. Check if student has any courses
+        if (!studentIt->second.empty()) {
+            // 3. Try to find the specific course
+            auto courseIt = studentIt->second.find(courseToRemove);
+            
+            if (courseIt != studentIt->second.end()) {
+                // 4. Remove the course
+                studentIt->second.erase(courseIt);
+                
+                // 5. If no courses left, remove student entry
+                if (studentIt->second.empty()) {
+                    studentCourses.erase(student);
+                }
+            }
+        }
+    }
+    
+    return 0;
+}
+
+/* Common Mistakes to Avoid:
+1. .begin():
+   ❌ Don't use without checking .empty()
+   ✅ Always check !container.empty() before using .begin()
+   
+2. .erase():
+   ❌ Don't use iterator after erasing
+   ✅ Get new iterator if needed after erase
+   
+3. .find():
+   ❌ Don't assume element exists
+   ✅ Always check against .end()
+   
+4. .empty():
+   ❌ Don't use container.size() == 0
+   ✅ Use .empty() - it's more efficient
+*/
+```
+
+---
+### **Solution 💡**
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <set>
+using namespace std;
+
+class NumberContainers {
+public:
+    unordered_map<int, int> ncsys; // index -> number
+    unordered_map<int, set<int>> revmap; // number -> sorted indices
+
+    NumberContainers() {}
+
+    void change(int index, int number) {
+        if (ncsys.find(index) != ncsys.end()) {
+            int oldNumber = ncsys[index];
+            revmap[oldNumber].erase(index);
+            if (revmap[oldNumber].empty()) {
+                revmap.erase(oldNumber);
+            }
+        }
+        ncsys[index] = number;
+        revmap[number].insert(index);
+    }
+
+    int find(int number) {
+        if (revmap.find(number) != revmap.end() && !revmap[number].empty()) {
+            return *revmap[number].begin();
+        }
+        return -1;
+    }
+};
+
+int main() {
+    NumberContainers nc;
+    nc.change(2, 10);
+    nc.change(1, 10);
+    nc.change(3, 10);
+    nc.change(5, 20);
+
+    cout << nc.find(10) << endl; // Expected: 1 (smallest index for 10)
+    cout << nc.find(20) << endl; // Expected: 5
+    cout << nc.find(30) << endl; // Expected: -1
+
+    nc.change(1, 20); // Move index 1 to number 20
+    cout << nc.find(10) << endl; // Expected: 2
+    return 0;
+}
+```
+
+### **Complexity Analysis 📊**
+| Operation | Complexity |
+|-----------|------------|
+| `change(index, number)` | **O(log n)** (due to `set<int>`) |
+| `find(number)` | **O(1)** (direct access to `.begin()`) |
+| **Total worst case** | **O(log n)** |
+
+---
+### **Example Output 🖥️**
+```
+1
+5
+-1
+2
+```
+
+This solution ensures **fast lookups and updates**! 🚀
 <h2><a href="https://leetcode.com/problems/sort-characters-by-frequency">Sort Characters By Frequency</a></h2> <img src='https://img.shields.io/badge/Difficulty-Medium-orange' alt='Difficulty: Medium' /><hr><p>Given a string <code>s</code>, sort it in <strong>decreasing order</strong> based on the <strong>frequency</strong> of the characters. The <strong>frequency</strong> of a character is the number of times it appears in the string.</p>
 
 <p>Return <em>the sorted string</em>. If there are multiple answers, return <em>any of them</em>.</p>
