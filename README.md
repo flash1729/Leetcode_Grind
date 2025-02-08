@@ -6,10 +6,11 @@
 3. [1903. Largest Odd Number in String](#1903-largest-odd-number-in-string)
 4. [14. Longest Common Prefix](#14-longest-common-prefix)
 5. [242. Valid Anagram](https://leetcode.com/problems/valid-anagram)
-6. [SET & MAP OPERATIONS QUICK REFERENCE](https://github.com/flash1729/Leetcode_Grind/edit/main/README.md#design-a-number-container-system-)
+6. [SET & MAP OPERATIONS QUICK REFERENCE](#set--map-operations-quick-reference)
 
 ---
 
+## SET & MAP OPERATIONS QUICK REFERENCE
 ## <a href="https://leetcode.com/problems/design-a-number-container-system">Design a Number Container System</a> <img src='https://img.shields.io/badge/Difficulty-Medium-orange' alt='Difficulty: Medium' />
 
 ### Problem Statement 📜
