@@ -7,8 +7,59 @@
 4. [14. Longest Common Prefix](#14-longest-common-prefix)
 5. [242. Valid Anagram](https://leetcode.com/problems/valid-anagram)
 6. [SET & MAP OPERATIONS QUICK REFERENCE](#set--map-operations-quick-reference)
+7. [for each loop iterate on unorderd map](#for-each-loop-iterate-on-unorderd-map)
 
 ---
+## for each loop iterate on unorderd map 
+<h2><a href="https://leetcode.com/problems/count-number-of-bad-pairs">Count Number of Bad Pairs</a></h2> <img src='https://img.shields.io/badge/Difficulty-Medium-orange' alt='Difficulty: Medium' /><hr><p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. A pair of indices <code>(i, j)</code> is a <strong>bad pair</strong> if <code>i &lt; j</code> and <code>j - i != nums[j] - nums[i]</code>.</p>
+
+### **Key Learnings 🎯**  
+
+- ✅ **Think in terms of complements:**  
+  - Instead of directly counting the desired pairs, check if you can compute **total pairs - complement pairs** to simplify calculations.  
+  - This reduces complexity and often avoids unnecessary nested loops.  
+
+- ✅ **Mathematical Equation Manipulation:**  
+  - If given a formula or relationship in a problem, try to **rearrange terms** and bring similar variables to one side.  
+  - This can help reveal hidden patterns or optimizations in the problem.  
+
+- ✅ **Efficient Map Iteration & Counting:**  
+  - Use **unordered_map** to store frequency counts efficiently instead of nested loops.  
+  - **Iterate over maps using `for (auto& [key, value] : map)`** to improve readability and efficiency.  
+
+- ✅ **Understanding Pair Counting Formula:**  
+  - To count combinations efficiently, use **nC2 formula**:  
+    ```
+    Total pairs = (n * (n - 1)) / 2
+    ```
+  - This prevents redundant iterations and speeds up computations significantly.  
+
+
+```cpp
+class Solution {
+public:
+    long long countBadPairs(vector<int>& nums) {
+        long long resComp = 0;
+        long long n = nums.size();
+
+        unordered_map<int, int> res;
+
+        // Step 1: Populate the map with (i - nums[i]) differences
+        for (int i = 0; i < n; i++) {
+            res[i - nums[i]]++;
+        }
+
+        // Step 2: Calculate valid (good) pairs using nC2 formula
+        for (auto& [diff, freq] : res) {
+            resComp += (long long)freq * (freq - 1) / 2; // nC2 for each frequency
+        }
+
+        // Step 3: Use total - good pairs to get the count of bad pairs
+        return (n * (n - 1) / 2) - resComp;
+    }
+};
+
+```
 
 ## SET & MAP OPERATIONS QUICK REFERENCE
 ## <a href="https://leetcode.com/problems/design-a-number-container-system">Design a Number Container System</a> <img src='https://img.shields.io/badge/Difficulty-Medium-orange' alt='Difficulty: Medium' />
