@@ -12,10 +12,9 @@ public:
 
     int countNicePairs(vector<int>& nums) {
         unordered_map<long long,long long> res;
-        long long n = nums.size();
         long long nicePair = 0;
 
-        for(int i = 0;i < n;i++){
+        for(int i = 0;i < nums.size();i++){
             res[nums[i] - rev(nums[i])]++;
         }
 
