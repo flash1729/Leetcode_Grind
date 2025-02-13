@@ -10,6 +10,32 @@
 7. [for each loop iterate on unorderd map](#for-each-loop-iterate-on-unorderd-map)
 
 ---
+```cpp
+//Priority queue can be used like this to intialise to a vector
+//also push pop top empty are the funtions and to get top element and then remnove it is the way to use it
+//directly pop return null and just removes the element in top so first use top
+priority_queue<double> pq(nums.begin(), nums.end());
+
+class Solution {
+public:
+    int halveArray(vector<int>& nums) {
+        int ops {0};
+        double sum {0};
+        for(int num : nums) { sum += num; }
+        double half_sum = (double)sum / 2;
+        priority_queue<double> pq(nums.begin(), nums.end());
+        while(sum > half_sum) {
+            double num = pq.top(); pq.pop();
+            sum -= num;
+            double half = num / 2;
+            sum += half;
+            pq.push(half);
+            ++ops;
+        }
+        return ops;
+    }
+};
+```
 ## for each loop iterate on unorderd map 
 <h2><a href="https://leetcode.com/problems/count-number-of-bad-pairs">Count Number of Bad Pairs</a></h2> <img src='https://img.shields.io/badge/Difficulty-Medium-orange' alt='Difficulty: Medium' /><hr><p>You are given a <strong>0-indexed</strong> integer array <code>nums</code>. A pair of indices <code>(i, j)</code> is a <strong>bad pair</strong> if <code>i &lt; j</code> and <code>j - i != nums[j] - nums[i]</code>.</p>
 
