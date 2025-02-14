@@ -1,21 +1,23 @@
 class ProductOfNumbers {
 public:
     vector<int> nums;
-    ProductOfNumbers() { }
+    ProductOfNumbers() {
+        nums.push_back(1);
+    }
     
     void add(int num) {
-        nums.push_back(num);
+        if(num == 0){
+            nums.clear();
+            nums.push_back(1);
+        }
+        else{
+            nums.push_back(num*nums[nums.size() - 1]);
+        }
     }
     
     int getProduct(int k) {
-        long long res = 1;
-        for(int i = 0;i < k;i++){
-            // cout<<nums[nums.size() - 1 - i] << "   " << res<<endl;
-            res *= nums[nums.size() - 1 - i];
-        }
-
-        // cout<<(int)res<<endl;
-        return (unsigned int)res;
+        if(k > nums.size() - 1) return 0;
+        return nums[nums.size() - 1] / nums[nums.size() - 1 - k];
     }
 };
 
