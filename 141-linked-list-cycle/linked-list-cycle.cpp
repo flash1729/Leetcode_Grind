@@ -20,11 +20,8 @@ public:
             return false;
         }
 
-        while(fast != 0){
+        while(fast && fast->next){
             slow = slow->next;
-            if(fast->next == 0){
-                break;
-            }
             fast = fast->next->next;
             if(slow == fast){
                 return true;
