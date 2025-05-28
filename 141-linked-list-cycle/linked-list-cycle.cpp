@@ -9,15 +9,26 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        set<ListNode*> count;
-        ListNode* temp = head;
-        while(temp != 0){
-            if(count.contains(temp)){
-                printf("Cycle Detected");
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        if(head == 0){
+            return false;
+        }
+
+        if(head->next == 0){
+            return false;
+        }
+
+        while(fast != 0){
+            slow = slow->next;
+            if(fast->next == 0){
+                break;
+            }
+            fast = fast->next->next;
+            if(slow == fast){
                 return true;
             }
-            count.insert(temp);
-            temp = temp->next;
         }
 
         return false;
