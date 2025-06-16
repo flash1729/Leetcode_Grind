@@ -1,21 +1,22 @@
 class Solution {
 public:
     int maximumDifference(vector<int>& nums) {
-        //brute force get all combinations
+        int minIndex = 0;
         int maxDif = INT_MIN;
 
-        for(int i = 0;i < nums.size();i++){
-            for(int j = i + 1;j < nums.size();j++){
-                if(nums[j] > nums[i]){
-                    int diff = nums[j] - nums[i];
-                    maxDif = max(maxDif,diff);
-                }
-            }
-        }
-        if(maxDif == INT_MIN){
-            return -1;
+        for(int i = 1;i < nums.size();i++){
+            int dif = nums[i] - nums[minIndex];
+            maxDif = max(dif,maxDif);
+
+            if(nums[i] < nums[minIndex]){
+                minIndex = i;
+            } 
         }
         
+        if(maxDif <= 0){
+            return -1;
+        }
+
         return maxDif;
     }
 };
