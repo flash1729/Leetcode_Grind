@@ -8,6 +8,7 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
@@ -15,7 +16,7 @@ public:
     ListNode* current = dummy;
     int carry = 0;
     
-    while(l1 || l2 || carry) {  // Continue if ANY of these exist
+    while(l1 || l2 || carry) {
         int sum = carry;
         
         if(l1) {
@@ -30,7 +31,7 @@ public:
         
         carry = sum / 10;
         
-        // Create new node with the digit
+        
         current->next = new ListNode(sum % 10);
         current = current->next;
     }
