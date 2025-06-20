@@ -8,10 +8,7 @@ public:
         for(int j = 0;j < fruits.size();j++){
             int right_fruit = fruits[j];
 
-            if(freq.count(right_fruit) == false){
-                freq[right_fruit] = 0;
-            }
-            freq[right_fruit] += 1;
+            freq[right_fruit]++;
 
             while(freq.size() > 2){
                 int left_fruit = fruits[i];
