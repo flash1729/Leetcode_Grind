@@ -1,8 +1,8 @@
 class Solution {
 public:
-    struct greater {
-        bool operator()(const auto& a1, const auto& a2) const {
-        return a1.second < a2.second;
+    struct greater{
+        bool operator()(pair<int,int> a,pair<int,int> b) const {
+            return a.first > b.first;
         }
     };
 
@@ -16,13 +16,21 @@ public:
 
         priority_queue<pair<int,int>,vector<pair<int,int>>,greater> pq;
 
-        for(auto& a : freq){
-            pq.push({a.first,a.second});
+        for(const auto& a : freq){
+            if(pq.size() < k){
+                pq.push({a.second,a.first});
+            }else{
+                int test = pq.top().first;
+                if(test < a.second){
+                    pq.pop();
+                    pq.push({a.second,a.first});
+                }
+            }
         }
-
-        for(int i = 0;i < k;i++){
-
-            result.push_back(pq.top().first);
+        
+        while(pq.empty() ==  false){
+            pair<int,int> a = pq.top();
+            result.push_back(a.second);
             pq.pop();
         }
 
