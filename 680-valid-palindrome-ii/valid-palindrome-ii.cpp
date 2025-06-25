@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool isPallindrome(string s,int left, int right){
+    bool isPallindrome(string &s,int left, int right){
         while(left < right){
             if(s[left] != s[right])
                 return false;
