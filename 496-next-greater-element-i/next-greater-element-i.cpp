@@ -10,7 +10,7 @@ public:
         return -1;
     }
 
-    int greater(int ind, vector<int> n2){
+    int greater(int ind, vector<int> &n2){
         if(ind + 1 >= n2.size()){
             return -1;
         }
@@ -28,9 +28,9 @@ public:
         vector<int> ans;
 
         for(int i = 0;i < nums1.size();i++){
-            int ind = index(nums1[i],nums2);
+            // int ind = index(nums1[i],nums2);
 
-            ans.push_back(greater(ind,nums2));
+            ans.push_back(greater(index(nums1[i],nums2),nums2));
         }
 
         return ans;
