@@ -1,35 +1,43 @@
+#include <vector>
+#include <stack>
+
 class Solution {
 public:
-    int sumSubarrayMins(vector<int>& arr) {
-        long MOD = 1e9 + 7;
+    int sumSubarrayMins(std::vector<int>& arr) {
         int n = arr.size();
+        long long ans = 0;
+        const int MOD = 1e9 + 7;
         
-        // Stack stores indices of elements in increasing order of value
-        stack<int> st; 
-        
-        // dp[i] = sum of minimums for subarrays ending at index i-1
-        vector<long> dp(n + 1, 0);
-        long totalSum = 0;
+        // Stack stores indices of elements, maintaining a non-decreasing value sequence.
+        std::stack<int> st;
 
-        for (int i = 0; i < n; ++i) {
-            // Find previous less element
-            while (!st.empty() && arr[st.top()] >= arr[i]) {
+        // Loop through i from 0 to n. i=n acts as a sentinel to pop all remaining elements.
+        for (int i = 0; i <= n; ++i) {
+            // When i=n, current_val is 0. Since 1 <= arr[i], this is a sentinel
+            // that is smaller than any element, ensuring the stack is emptied.
+            int current_val = (i == n) ? 0 : arr[i];
+            
+            // Pop elements from stack that are >= current_val.
+            // For a popped element arr[j], current_val is its Next Less-or-Equal Element (NLE).
+            // The element below it on the stack is its Previous Less Element (PLE).
+            while (!st.empty() && arr[st.top()] >= current_val) {
+                int j = st.top(); // Index of the element being calculated
                 st.pop();
+                
+                int k = st.empty() ? -1 : st.top(); // Index of PLE
+                
+                // Distance to PLE: (j - k)
+                // Distance to NLE: (i - j)
+                long long count = (long long)(j - k) * (i - j);
+                
+                // Contribution of arr[j] to the total sum
+                long long contribution = (count * arr[j]);
+                ans = (ans + contribution) % MOD;
             }
-
-            int ple_idx = st.empty() ? -1 : st.top();
             
-            // Calculate dp[i+1] using the recurrence
-            // dp[ple_idx + 1] handles the sum for subarrays starting before the PLE
-            // (i - ple_idx) * arr[i] is the sum for subarrays where arr[i] is the new minimum
-            dp[i + 1] = (dp[ple_idx + 1] + (long)(i - ple_idx) * arr[i]) % MOD;
-
             st.push(i);
-            
-            // Add current dp value to the total sum
-            totalSum = (totalSum + dp[i + 1]) % MOD;
         }
-
-        return totalSum;
+        
+        return ans;
     }
 };
