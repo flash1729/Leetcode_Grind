@@ -5,42 +5,20 @@ public:
         int n = matrix[0].size();
 
         int l = 0;
-        int r = m - 1;
+        int r = m*n - 1;
 
         while(l <= r){
+            
             int mid = l + (r-l)/2;
 
-            if(target == matrix[mid][0]){
+            if(target == matrix[mid/n][mid%n]){
                 return true;
             }
-            else if(target > matrix[mid][0] && mid + 1 <= m - 1){
+            else if(target > matrix[mid/n][mid%n]){
                 l = mid + 1;
             }
-            else if(target < matrix[mid][0] && mid - 1 >= 0){
-                r = mid - 1;
-            }else{
-                break;
-            }
-        }
-
-        int al = 0;
-        int ar = n - 1;
-        cout<<l<<" "<<r<<endl;
-
-        while(al <= ar){
-            int mid = al + (ar-al)/2;
-
-            if(target == matrix[r][mid]){
-                return true;
-            }   
-            else if(target > matrix[r][mid] && mid + 1 <= n - 1){
-                al = mid + 1;
-            }
-            else if(mid - 1 >= 0){
-                ar = mid - 1;
-            }
             else{
-                break;
+                r = mid - 1;
             }
         }
 
