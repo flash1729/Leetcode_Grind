@@ -9,10 +9,6 @@ public:
             while(j > 0 && nums[j] == nums[j - 1]) j--;
 
             int mid = i + (j-i)/2;
-            cout<<mid<<" "<<nums[mid]<<" "<<i<<" "<<j<<endl;
-
-            // if(nums[i] == target) return i;
-            // if(nums[j] == target) return j;
 
             if(nums[mid] == target){
                 return true;
