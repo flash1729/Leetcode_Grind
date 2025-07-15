@@ -7,8 +7,8 @@ public:
         while(i <= j){
             int mid = i + (j-i)/2;
 
-            if(nums[i] == target) return i;
-            if(nums[j] == target) return j;
+            // if(nums[i] == target) return i;
+            // if(nums[j] == target) return j;
 
             if(nums[mid] == target){
                 return mid;
