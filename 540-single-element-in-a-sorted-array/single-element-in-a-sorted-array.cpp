@@ -14,13 +14,13 @@ public:
             if (nums[mid] == nums[mid - 1]) {
                 int left_count = mid - l + 1;
                 if (left_count % 2 == 1)
-                    r = mid - 2;  // exclude the pair
+                    r = mid - 2;
                 else
                     l = mid + 1;
             } else {
                 int right_count = r - mid + 1;
                 if (right_count % 2 == 1)
-                    l = mid + 2;  // exclude the pair
+                    l = mid + 2;
                 else
                     r = mid - 1;
             }
