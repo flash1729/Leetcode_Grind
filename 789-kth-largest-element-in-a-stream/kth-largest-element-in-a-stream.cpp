@@ -24,8 +24,10 @@ public:
 
             return pq.size() >= lim ? pq.top() : 0;
         }else{
-            pq.push(val);
-            pq.pop();
+            if(val > pq.top()){
+                pq.pop();
+                pq.push(val);
+            }
         }
 
         return pq.top();
