@@ -2,12 +2,10 @@ class KthLargest {
 public:
     priority_queue<int,vector<int>,greater<int>> pq;
     int lim = 1;
-    void setLim(int k){
-        lim = k;
-    }
 
     KthLargest(int k, vector<int>& nums) {
-        setLim(k);
+        // setLim(k);
+        lim = k;
 
         for(int a : nums){
             pq.push(a);
