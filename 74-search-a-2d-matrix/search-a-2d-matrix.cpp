@@ -8,17 +8,14 @@ public:
         int r = m*n - 1;
 
         while(l <= r){
-            
             int mid = l + (r-l)/2;
 
-            if(target == matrix[mid/n][mid%n]){
+            if(matrix[mid/n][mid%n] == target){
                 return true;
-            }
-            else if(target > matrix[mid/n][mid%n]){
-                l = mid + 1;
-            }
-            else{
+            }else if(matrix[mid/n][mid%n] > target){
                 r = mid - 1;
+            }else{
+                l = mid + 1;
             }
         }
 
