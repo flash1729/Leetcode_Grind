@@ -15,10 +15,8 @@ public:
 
             if(ind.empty()){
                 ng[nums2[i]] = -1;
-                cout<<nums2[i]<<" -1"<<endl;
             }else{
                 ng[nums2[i]] = nums2[ind.top()];
-                cout<<nums2[i]<<" "<<nums2[ind.top()]<<endl;
             }
 
             ind.push(i);
