@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    void maxD(TreeNode* root,int& depth,int cur){
+    int maxD(TreeNode* root,int& depth,int cur){
         if(root != nullptr){
             cur++;
             depth = max(depth,cur);
@@ -19,12 +19,14 @@ public:
             maxD(root->left,depth,cur);
             maxD(root->right,depth,cur);
         }
+
+        return depth;
     }
 
     int maxDepth(TreeNode* root) {
         int depth = 0;
 
-        maxD(root,depth,0);
+        depth = maxD(root,depth,0);
 
         return depth;
 
