@@ -12,6 +12,24 @@
 
 class Solution {
 public:
+//     if (node1 == null && node2 == null) {
+// return true;
+// }
+// if (node1 == null || node2 == null) {
+// return false;
+// }
+/* 
+        if (node1 == null && node2 == null) {
+        return true;
+        }
+        if (node1 == null || node2 == null) {
+        return false;
+        }
+    this can be simplified to
+     if (node1 == null || node2 == null) {
+     return node1 == node 2;
+    } 
+*/
     bool check(TreeNode* r1, TreeNode* r2){
         if(!r1 && !r2) return true;
         if(!r1 || !r2) return false;
