@@ -1,34 +1,44 @@
 class Solution {
 public:
-    struct maxP{
-        bool operator()(vector<int> &p, vector<int> &q){
-            double pOld = (double)p[0] / (double)p[1];
-            double qOld = (double)q[0] / (double)q[1];
-
-            double pNew = ((double)p[0] + 1) / ((double)p[1] + 1);
-            double qNew = ((double)q[0] + 1) / ((double)q[1] + 1);
-
-            return (pNew - pOld) < (qNew - qOld);
+    struct MaxImprovement {
+        bool operator()(const vector<int>& p, const vector<int>& q) {
+            // Calculate improvement for each class
+            double pImprovement = ((double)(p[0] + 1) / (p[1] + 1)) - ((double)p[0] / p[1]);
+            double qImprovement = ((double)(q[0] + 1) / (q[1] + 1)) - ((double)q[0] / q[1]);
+            
+            // Max heap: return true if p has less improvement than q
+            return pImprovement < qImprovement;
         }
     };
 
     double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
-        priority_queue<vector<int>,vector<vector<int>>,maxP> pq;
-        double average = 0;
-
-        for(auto a : classes){
-            pq.push(a);
-            average += (double)a[0] / (double)a[1];
+        priority_queue<vector<int>, vector<vector<int>>, MaxImprovement> pq;
+        
+        // Add all classes to priority queue
+        for(const auto& cls : classes) {
+            pq.push(cls);
         }
-
-        for(int i = 0; i < extraStudents; i++){
-            vector<int> cur = pq.top();
+        
+        // Distribute extra students
+        for(int i = 0; i < extraStudents; i++) {
+            vector<int> bestClass = pq.top();
             pq.pop();
-            average -= (double)cur[0] / (double)cur[1];
-            average += ((double)cur[0] + 1) / ((double)cur[1] + 1);
-            pq.push({cur[0] + 1,cur[1] + 1});
+            
+            // Add one student to this class
+            bestClass[0]++; // passing students
+            bestClass[1]++; // total students
+            
+            pq.push(bestClass);
         }
-
-        return average / classes.size();
+        
+        // Calculate final average
+        double totalRatio = 0;
+        while(!pq.empty()) {
+            vector<int> cls = pq.top();
+            pq.pop();
+            totalRatio += (double)cls[0] / cls[1];
+        }
+        
+        return totalRatio / classes.size();
     }
 };
