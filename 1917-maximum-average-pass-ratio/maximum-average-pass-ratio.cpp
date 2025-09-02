@@ -19,7 +19,6 @@ public:
         for(auto a : classes){
             pq.push(a);
             average += (double)a[0] / (double)a[1];
-            cout<<average<<endl;
         }
 
         for(int i = 0; i < extraStudents; i++){
